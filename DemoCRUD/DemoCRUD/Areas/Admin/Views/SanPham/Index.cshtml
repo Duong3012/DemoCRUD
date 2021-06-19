@@ -1,0 +1,75 @@
+﻿@model PagedList<DemoCRUD.Models.EF.sanpham>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Danh sach san pham </h2>
+<div class="row">
+    @using (Html.BeginForm("Index", "SanPham", FormMethod.Post))
+    {
+        <div class="col-sm-8">
+            @Html.TextBox("searchString")
+            <button>Tim Kiem</button>
+        </div>
+    }
+        <div class="col-sm-2"></div>
+        <div class="col-sm-2">
+            @Html.ActionLink("Create New", "Create")
+        </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            Mã sản phẩm
+        </th>
+        <th>
+            Mã Loại
+        </th>
+        <th>
+            Tên Loại
+        </th>
+        <th>
+            Số Lượng
+        </th>
+        <th>
+            Gía Tiền
+        </th>
+        <th>
+            Hình ảnh
+        </th>
+        <th>Hành Động</th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.masp)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.maloai)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.tensp)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.soluong)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.giatien)
+    </td>
+    <td>
+        @*@Html.DisplayFor(modelItem => item.hinhanh)*@
+        <img src="~/Image/@Html.DisplayFor(modelItem => item.hinhanh)" style="height:30px;width:30px;" />
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.masp }) |
+        @Html.ActionLink("Details", "Details", new { id = item.masp }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.masp }, new { onclick = "return confirm('Ban co muon xoa khong ?')" })
+    </td>
+</tr>
+}
+
+</table>
+@Html.PagedListPager(Model,page=>Url.Action("Index",page))

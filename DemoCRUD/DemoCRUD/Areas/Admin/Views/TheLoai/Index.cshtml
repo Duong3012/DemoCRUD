@@ -1,0 +1,60 @@
+﻿@model PagedList<DemoCRUD.Models.EF.theloai>
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Index";
+
+
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    @using (Html.BeginForm("Index", "TheLoai", FormMethod.Post)) { 
+        <div class="col-sm-8">
+            @Html.TextBox("searchString")
+            <button>Tìm Kiếm</button>
+        </div>
+    }
+        <div class="col-sm-2"></div>
+        <div class="col-sm-2">
+            @Html.ActionLink("Create New", "Create")
+        </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            Mã Loại
+        </th>
+        <th>
+            Tên Loại
+        </th>
+        <th>
+            Mô tả
+        </th>
+        <th>Hành Động</th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.maloai)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.tenloai)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.mota)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.maloai }) |
+        @Html.ActionLink("Details", "Details", new { id = item.maloai }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.maloai },new {onclick="return confirm('Bạn Có Muốn Xóa Không ?')"})
+    </td>
+</tr>
+}
+
+</table>
+@Html.PagedListPager(Model,page=>Url.Action("Index",page))
